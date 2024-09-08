@@ -1,0 +1,40 @@
+import streamlit as st 
+import pandas as pd 
+import plotly.express as px
+
+vehicles_us_df = pd.read_csv('vehicles_us.csv')
+
+def main():
+    st.title('Car Advertisement Data Analysis')
+    
+    if st.checkbox('Show Dataset'):
+        st.header('Dataset Overview')
+        st.write(vehicles_us_df.head())
+
+    st.header('Histogram of Odometer Readings')
+    fig_odometer_histogram = px.histogram(
+    vehicles_us_df,
+    x='odometer',
+    title='Distribution of Odometer Readings',
+    labels={'odometer': 'Odometer Reading'},
+    nbins=30,  
+    height=600,
+    width=900
+)
+    st.plotly_chart(fig_odometer_histogram)
+
+    st.header('Scatter Plot of Price vs Odometer Reading')
+
+    fig_price_odometer_scatter = px.scatter(
+    vehicles_us_df,
+    x='odometer',
+    y='price',
+    color='model',  
+    title='Price vs. Odometer Reading',
+    labels={'odometer': 'Odometer Reading', 'price': 'Price'}
+)
+
+    st.plotly_chart(fig_price_odometer_scatter)
+
+if __name__ == "__main__":
+    main()
